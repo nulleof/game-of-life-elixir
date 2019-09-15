@@ -28,9 +28,6 @@ defmodule GameOfLife.Cell do
     end
   end
 
-  @doc """
-  Recursive count of neighbours
-  """
   @spec count_neighbours([cell | list(cell)], integer, integer, integer) :: integer
   defp count_neighbours([head_cell | tail_cells], x, y, count) do
     increment =
@@ -50,4 +47,31 @@ defmodule GameOfLife.Cell do
   end
 
   defp count_neighbours([], _x, _y, count), do: count
+
+  @doc """
+  Returns list of dead cells that pretend to be alive
+  """
+  @spec dead_neighbours(list(cell)) :: list(cell)
+  def dead_neighbours(alive_cells) do
+    neighbours = neighbours(alive_cells, [])
+
+    (neighbours |> Enum.uniq()) -- alive_cells
+  end
+
+  defp neighbours([{x, y} | cells], neighbours) do
+    new_neighbours = [
+      {x - 1, y - 1},
+      {x, y - 1},
+      {x + 1, y - 1},
+      {x - 1, y},
+      {x + 1, y},
+      {x - 1, y + 1},
+      {x, y + 1},
+      {x + 1, y + 1}
+    ]
+
+    neighbours(cells, neighbours ++ new_neighbours)
+  end
+
+  defp neighbours([], neighbours), do: neighbours
 end

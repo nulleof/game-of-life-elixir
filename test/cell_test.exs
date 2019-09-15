@@ -42,4 +42,48 @@ defmodule GameOfLife.CellTest do
     dead_cell = {0, 0}
     refute GameOfLife.Cell.become_alive?(alive_cells, dead_cell)
   end
+
+  test "find dead cells around (they will be neighbours of alive cells)" do
+    alive_cells = [{1, 1}]
+
+    dead_neighbours = GameOfLife.Cell.dead_neighbours(alive_cells) |> Enum.sort()
+
+    expected_dead_neighbours =
+      [
+        {0, 0},
+        {0, 1},
+        {0, 2},
+        {1, 0},
+        {1, 2},
+        {2, 0},
+        {2, 1},
+        {2, 2}
+      ]
+      |> Enum.sort()
+
+    assert dead_neighbours == expected_dead_neighbours
+  end
+
+  test "find dead cells around (they will be neighbours of alive cells). Two alive cells were given" do
+    alive_cells = [{1, 1}, {2, 1}]
+
+    dead_neighbours = GameOfLife.Cell.dead_neighbours(alive_cells) |> Enum.sort()
+
+    expected_dead_neighbours =
+      [
+        {0, 0},
+        {0, 1},
+        {0, 2},
+        {1, 0},
+        {1, 2},
+        {2, 0},
+        {2, 2},
+        {3, 0},
+        {3, 1},
+        {3, 2}
+      ]
+      |> Enum.sort()
+
+    assert dead_neighbours == expected_dead_neighbours
+  end
 end
