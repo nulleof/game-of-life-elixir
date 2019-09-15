@@ -2,10 +2,18 @@ defmodule GameOfLife.Cell do
   @type cell :: {integer, integer}
 
   @doc """
+  Should this dead cell be alive on next generation?
+  """
+  @spec become_alive?(list(cell), cell) :: bool
+  def become_alive?(alive_cells, {x, y} = _dead_cell) do
+    3 == count_neighbours(alive_cells, x, y, 0)
+  end
+
+  @doc """
   Should this cell be alive on next generation?
 
   ## args
-    - alive_cells: list of neighbour cells, can be empty
+    - alive_cells: list of all active cells, can be empty
     - _alive_cell: tuple of given cell coords
 
   """

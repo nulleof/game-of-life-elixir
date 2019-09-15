@@ -30,4 +30,16 @@ defmodule GameOfLife.CellTest do
     alive_cells = [alive_cell, {0, 0}, {1, 0}, {0, 1}]
     assert GameOfLife.Cell.keep_alive?(alive_cells, alive_cell)
   end
+
+  test "dead cell become alive with 3 neighbours" do
+    alive_cells = [{1, 0}, {1, 1}, {0, 1}]
+    dead_cell = {0, 0}
+    assert GameOfLife.Cell.become_alive?(alive_cells, dead_cell)
+  end
+
+  test "dead cell with 2 neighbours stays dead" do
+    alive_cells = [{1, 0}, {1, 1}]
+    dead_cell = {0, 0}
+    refute GameOfLife.Cell.become_alive?(alive_cells, dead_cell)
+  end
 end
