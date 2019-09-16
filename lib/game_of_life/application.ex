@@ -6,9 +6,14 @@ defmodule GameOfLife.Application do
   use Application
 
   def start(_type, _args) do
+    alive_cells_init = []
+
     children = [
       # Starts a worker by calling: GameOfLife.Worker.start_link(arg)
       # {GameOfLife.Worker, arg}
+      {Task.Supervisor, [name: GameOfLife.TaskSupervisor]}
+      # GameOfLife.BoardServer, [alive_cells_init]}
+      # GameOfLife.GamePrinter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
